@@ -1,5 +1,3 @@
-// import logo from './public/logo.png'
-
 export default function Nav() {
     return (
         <nav style={{
@@ -8,7 +6,7 @@ export default function Nav() {
             display: 'flex',
             justifyContent: 'center',
         }} >
-            <img style={{ height: 50 }} src="/logo2.png" alt="image"  />
+            <img style={{ height: 36 }} src="/logo2.png" alt="image"  />
         </nav>
     );
 }

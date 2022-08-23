@@ -1,33 +1,72 @@
-import { Grid, TextField, Container, Select, InputLabel, MenuItem } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-// import { Container } from './styles';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Grid, TextField, Select, InputLabel, MenuItem, Button } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DesktopDatePicker, LocalizationProvider } from '@material-ui/lab';
 
 export default function Form() {
 
-    // const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    // const onSubmit = data => console.log(data);
+    const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const onSubmit = data => console.log(data);
 
-    const [age, setAge] = useState('');
+    const properties = [
+        {
+            id: 1,
+            name: 'Agrotis 1',
+            cnpj: '04.909.987/0001-89',
+        }, {
+            id: 2,
+            name: 'Agrotis 2',
+            cnpj: '04.909.987/0001-88',
+        },
+        {
+            id: 3,
+            name: 'Agrotis 3',
+            cnpj: '04.909.987/0001-87',
+        },
+        {
+            id: 4,
+            name: 'Agrotis 4',
+            cnpj: '04.909.987/0001-86',
+        },
+        {
+            id: 5,
+            name: 'Agrotis 5',
+            cnpj: '04.909.987/0001-85',
+        },
+        {
+            id: 6,
+            name: 'Agrotis 6',
+            cnpj: '04.909.987/0001-84',
+        },
+    ]
 
-    const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
-
-    // const handleChange = (newValue) => {
-    //   setValue(newValue);
-    // };
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
-
+    const labs = [
+        {
+            id: 1,
+            name: 'Agro Skynet',
+        }, {
+            id: 2,
+            name: 'Umbrella Agro',
+        }, {
+            id: 3,
+            name: 'Osborn Agro',
+        }, {
+            id: 4,
+            name: 'Skyrim Agro',
+        }, {
+            id: 5,
+            name: 'Agro Brasil',
+        }, {
+            id: 6,
+            name: 'Agro',
+        },
+    ]
 
     return (
         <div style={{
-            margin: 30,
+            margin: '3%',
             boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+            backgroundColor: 'white',
         }}>
             <div style={{
                 border: '1px solid black',
@@ -35,80 +74,131 @@ export default function Form() {
                 justifyContent: 'space-between',
                 alignItems: 'baseline',
                 backgroundColor: '#00725c',
-                padding: '0px 20px',
+                padding: '0px 15px',
             }}>
-                <h1 style={{ color: 'white' }}>Teste front-end</h1>
-                <p style={{ color: 'white', textTransform: 'uppercase' }}>SALVAR</p>
+                <h1 style={{ color: 'white', fontSize: 18 }}>Teste front-end</h1>
+                <Button onClick={handleSubmit(console.log)} style={{ color: 'white', fontSize: 14, textTransform: 'uppercase' }} variant="text">SALVAR</Button>
             </div>
 
             <div style={{ padding: 20 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <TextField fullWidth id="standard-basic" label="Nome *" variant="standard" />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField fullWidth id="standard-basic" label="Data Final *" variant="standard" />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TextField fullWidth id="standard-basic" label="Data Final *" variant="standard" />
-                    </Grid>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={6}>
+                            <TextField fullWidth id="name" label="Nome *" variant="standard"  {...register("nome")} />
+                        </Grid>
 
-                    <Grid item xs={6}>
-                        <InputLabel id="demo-simple-select-standard-label">Propriedades *</InputLabel>
-                        <Select
-                            fullWidth
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={age}
-                            onChange={handleChange}
-                            label="Propriedades *"
-                            variant="standard"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </Grid>
+                        <Grid item xs={3}>
+                            <Controller
+                                name={"dataInicial"}
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DesktopDatePicker
+                                            label="Data Inicial *"
+                                            inputFormat="dd/MM/yyyy"
+                                            value={value}
+                                            onChange={(date) => onChange(date)}
+                                            variant="standard"
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                )}
+                            />
+                        </Grid>
 
-                    <Grid item xs={6}>
-                        <InputLabel id="demo-simple-select-standard-label">Laboratório *</InputLabel>
-                        <Select
-                            fullWidth
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={age}
-                            onChange={handleChange}
-                            label="Laboratório *"
-                            variant="standard"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </Grid>
+                        <Grid item xs={3}>
+                            <Controller
+                                name={"dataFinal"}
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DesktopDatePicker
+                                            label="Data Final *"
+                                            inputFormat="dd/MM/yyyy"
+                                            selected={value}
+                                            onChange={(date) => onChange(date)}
+                                            variant="standard"
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                )}
+                            />
+                        </Grid>
 
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            id="standard-multiline-static"
-                            label="Observações"
-                            multiline
-                            rows={4}
-                            defaultValue=""
-                            variant="standard"
-                        />
-                    </Grid>
+                        <Grid item xs={6}>
+                            <InputLabel id="properties">Propriedades *</InputLabel>
+                            <Controller
+                                name={"propriedades"}
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                    <Select
+                                        fullWidth
+                                        labelId="propriedades"
+                                        id="propriedades"
+                                        value={value}
+                                        onChange={onChange}
+                                        label="Propriedades *"
+                                        variant="standard"
+                                    >
+                                        {properties.map((property) => (
+                                            <MenuItem
+                                                key={property.cnpj}
+                                                value={property.name}
+                                            >
+                                                {property.name}
+                                                {property.cnpj}
+                                            </MenuItem>
+                                        ))}
 
-                </Grid>
+                                    </Select>
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <InputLabel id="laboratory">Laboratório *</InputLabel>
+                            <Controller
+                                name={"laboratorio"}
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                    <Select
+                                        fullWidth
+                                        labelId="laboratorio"
+                                        id="laboratorio"
+                                        value={value}
+                                        onChange={onChange}
+                                        label="Laboratório *"
+                                        variant="standard"
+                                    >
+                                        {labs.map((lab) => (
+                                            <MenuItem
+                                                key={lab.id}
+                                                value={lab.name}
+                                            >
+                                                {lab.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="comments"
+                                label="Observações"
+                                multiline
+                                rows={4}
+                                defaultValue=""
+                                variant="standard"
+                                {...register("observacoes")}
+                            />
+                        </Grid>
+
+                    </Grid>
+                </form>
             </div>
-
-
         </div>
     );
 
