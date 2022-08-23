@@ -1,11 +1,14 @@
-import { Grid, TextField, Select, InputLabel, MenuItem, Button } from '@mui/material';
+import { Grid, TextField, Select, InputLabel, MenuItem, Button, InputAdornment, IconButton, FormHelperText } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DesktopDatePicker, LocalizationProvider } from '@material-ui/lab';
+import { DatePicker, DesktopDatePicker, LocalizationProvider } from '@material-ui/lab';
+import CloseIcon from '@mui/icons-material/Close';
+import moment from 'moment';
+import styled from 'styled-components';
 
 export default function Form() {
 
-    const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
 
     const properties = [
@@ -98,8 +101,7 @@ export default function Form() {
                                             inputFormat="dd/MM/yyyy"
                                             value={value}
                                             onChange={(date) => onChange(date)}
-                                            variant="standard"
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField variant="standard" {...params} />}
                                         />
                                     </LocalizationProvider>
                                 )}
@@ -112,13 +114,12 @@ export default function Form() {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <DesktopDatePicker
+                                        <DatePicker
                                             label="Data Final *"
                                             inputFormat="dd/MM/yyyy"
                                             selected={value}
                                             onChange={(date) => onChange(date)}
-                                            variant="standard"
-                                            renderInput={(params) => <TextField {...params} />}
+                                            renderInput={(params) => <TextField variant="standard" {...params} />}
                                         />
                                     </LocalizationProvider>
                                 )}
@@ -130,6 +131,7 @@ export default function Form() {
                             <Controller
                                 name={"propriedades"}
                                 control={control}
+                                defaultValue=""
                                 render={({ field: { onChange, value } }) => (
                                     <Select
                                         fullWidth
@@ -139,14 +141,28 @@ export default function Form() {
                                         onChange={onChange}
                                         label="Propriedades *"
                                         variant="standard"
+                                        renderValue={value => <span>{value}</span>}
+                                        endAdornment={
+                                            <>
+                                                {value && <InputAdornment
+                                                    position="end"
+                                                    style={{ marginRight: 20 }}
+                                                >
+                                                    <IconButton onClick={() => onChange('')}>
+                                                        <CloseIcon />
+                                                    </IconButton>
+                                                </InputAdornment>}
+                                            </>
+                                        }
                                     >
                                         {properties.map((property) => (
                                             <MenuItem
                                                 key={property.cnpj}
                                                 value={property.name}
+                                                style={{ display: 'block' }}
                                             >
                                                 {property.name}
-                                                {property.cnpj}
+                                                <FormHelperText>{property.cnpj}</FormHelperText>
                                             </MenuItem>
                                         ))}
 
@@ -160,6 +176,7 @@ export default function Form() {
                             <Controller
                                 name={"laboratorio"}
                                 control={control}
+                                defaultValue=""
                                 render={({ field: { onChange, value } }) => (
                                     <Select
                                         fullWidth
@@ -169,6 +186,18 @@ export default function Form() {
                                         onChange={onChange}
                                         label="Laboratório *"
                                         variant="standard"
+                                        endAdornment={
+                                            <>
+                                                {value && <InputAdornment
+                                                    position="end"
+                                                    style={{ marginRight: 20 }}
+                                                >
+                                                    <IconButton onClick={() => onChange('')}>
+                                                        <CloseIcon />
+                                                    </IconButton>
+                                                </InputAdornment>}
+                                            </>
+                                        }
                                     >
                                         {labs.map((lab) => (
                                             <MenuItem
