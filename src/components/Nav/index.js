@@ -1,12 +1,16 @@
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import { Logo, Toolbar } from './style';
+
 export default function Nav() {
     return (
-        <nav style={{
-            border: '1px solid black',
-            backgroundColor: '#ffffff',
-            display: 'flex',
-            justifyContent: 'center',
-        }} >
-            <img style={{ height: 36 }} src="/logo2.png" alt="image"  />
-        </nav>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="regular" color="background" >
+                <Toolbar>
+                    <Logo src="/logo.png" />
+                </Toolbar>
+            </AppBar>
+        </Box>
     );
 }

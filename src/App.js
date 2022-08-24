@@ -9,9 +9,7 @@ function App() {
       width: '100vw',
     }}>
       <Nav />
-
       <Form />
-
     </div>
   );
 }
